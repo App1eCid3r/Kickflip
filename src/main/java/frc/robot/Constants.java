@@ -8,4 +8,8 @@ public final class Constants {
         public static final int RIGHT_DRIVE_2_ID = 4;
     }
     
+    public static class ControlConstants {
+        public static final int XBOX_CONTROLLER_DRIVER = 0;
+        public static final int XBOX_CONTROLLER_OPERATOR = 1;
+    }
 }
