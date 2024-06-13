@@ -4,11 +4,23 @@
 
 package frc.robot;
 
+// WPI imports
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+// File Imports
+import frc.robot.Commands.Drivin;
+import frc.robot.Subsystems.Drivebase;
 
 public class RobotContainer {
+   // creates motor object and sets up button linking
+   Drivebase drivebase = new Drivebase();
+   Drivin drivin = new Drivin(drivebase);
+  CommandXboxController driver = Controls.driver;
+
   public RobotContainer() {
+
+    drivebase.setDefaultCommand(drivin);
     configureBindings();
   }
 

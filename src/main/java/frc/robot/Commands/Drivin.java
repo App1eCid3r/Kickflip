@@ -4,25 +4,30 @@
 
 package frc.robot.Commands;
 
+// WPI imports
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
+// File imports
 import frc.robot.Controls;
 import frc.robot.Subsystems.Drivebase;
+
+// Math import??
+import java.lang.Math;
 
 public class Drivin extends CommandBase {
   /** Creates a new Drivin. */
   private Drivebase drivin;
-  public double speed;
-  public double right;
   public double left;
-  public String side;
-  private XboxController operator;
+  public double right;
+  public double x;
+  public double y;
+  private XboxController driver;
   public boolean endCommand;
 
-  public Drivin(Drivebase m_drivin, String m_side) {
-    operator = Controls.xbox_operator;
+  public Drivin(Drivebase m_drivin) {
+    driver = Controls.xbox_driver;
     drivin = m_drivin;
-    side = m_side;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivin);
@@ -37,13 +42,26 @@ public class Drivin extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (side == "right") {
-      speed = operator.getRightTriggerAxis();
-    } else {
-      speed = operator.getLeftTriggerAxis();
-    }
-    drivin.move(speed);
+    // Joystick up Y is reversed
+    x = (driver.getLeftX());
+    y = -(driver.getLeftY());
 
+    left = 0;
+    right = 0;
+
+    if ((0.1 < y) || (y < -0.1)) {
+      left = y;
+      right = y;
+    } else if (0.1 < x) {
+      left = x;
+      right = y-x;
+    } else if (x < -0.1) {
+      left = y+x;
+      right = -x;
+    } 
+
+    drivin.drivin(left, right);
+    endCommand = true;
   }
 
   // Called once the command ends or is interrupted.

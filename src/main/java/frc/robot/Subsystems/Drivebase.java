@@ -26,6 +26,12 @@ public class Drivebase extends SubsystemBase {
     leftDrive2 = new CANSparkMax(Constants.DrivebaseConstants.LEFT_DRIVE_2_ID, MotorType.kBrushed);
     rightDrive1 = new CANSparkMax(Constants.DrivebaseConstants.RIGHT_DRIVE_1_ID, MotorType.kBrushed);
     rightDrive2 = new CANSparkMax(Constants.DrivebaseConstants.RIGHT_DRIVE_2_ID, MotorType.kBrushed);
+    
+    // Idlemode
+    leftDrive1.setIdleMode(IdleMode.kBrake);
+    leftDrive2.setIdleMode(IdleMode.kBrake);
+    rightDrive1.setIdleMode(IdleMode.kBrake);
+    rightDrive2.setIdleMode(IdleMode.kBrake);
 
     // Factory Defaults
     leftDrive1.restoreFactoryDefaults();
@@ -33,25 +39,17 @@ public class Drivebase extends SubsystemBase {
     rightDrive1.restoreFactoryDefaults();
     rightDrive2.restoreFactoryDefaults();
     
-    // Inverts direction
-    leftDrive1.setInverted(true);
-    leftDrive2.setInverted(true);
-    
-    // Left March
+    // Unison March
     leftDrive2.follow(leftDrive1);
-
-    // Right March
     rightDrive2.follow(rightDrive1);
-
-    // Idlemode
-    leftDrive1.setIdleMode(IdleMode.kBrake);
-    leftDrive2.setIdleMode(IdleMode.kBrake);
-    rightDrive1.setIdleMode(IdleMode.kBrake);
-    rightDrive2.setIdleMode(IdleMode.kBrake);
+    
+    // Inverts left direction
+    leftDrive1.setInverted(true);
   }
 
-  public void move(double speed) {
-    leftDrive1.set(speed);
+  public void drivin(double Lspeed, double Rspeed) {
+    leftDrive1.set(Lspeed);
+    rightDrive1.set(Rspeed);
   }
 
   @Override
