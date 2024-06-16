@@ -48,6 +48,7 @@ public class Drivebase extends SubsystemBase {
   }
 
   public void drivin(double Lspeed, double Rspeed) {
+    // We want our left and rightside to move independently of eachother (Different speeds)
     leftDrive1.set(Lspeed);
     rightDrive1.set(Rspeed);
   }

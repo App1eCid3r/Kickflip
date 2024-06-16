@@ -12,14 +12,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Controls;
 import frc.robot.Subsystems.Drivebase;
 
-// Math import??
-import java.lang.Math;
-
 public class Drivin extends CommandBase {
   /** Creates a new Drivin. */
   private Drivebase drivin;
+  // Left and Right speeds
   public double left;
   public double right;
+  // X and Y axis of joystick
   public double x;
   public double y;
   private XboxController driver;
@@ -46,19 +45,21 @@ public class Drivin extends CommandBase {
     x = (driver.getLeftX());
     y = -(driver.getLeftY());
 
+    // Always innocent till proven guilty
     left = 0;
     right = 0;
 
-    if ((0.1 < y) || (y < -0.1)) {
-      left = y;
-      right = y;
-    } else if (0.1 < x) {
+
+    if (0.1 < x) {  // Jack is a programmer tell him what he thinks this does (Basic Chart)
       left = x;
       right = y-x;
     } else if (x < -0.1) {
       left = y+x;
       right = -x;
-    } 
+    } else if ((0.1 < y) || (y < -0.1)) {
+      left = y;
+      right = y;
+    }
 
     drivin.drivin(left, right);
     endCommand = true;
