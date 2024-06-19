@@ -52,9 +52,9 @@ public class Drivin extends CommandBase {
 
     if (0.1 < x) {  // Jack is a programmer tell him what he thinks this does (Basic Chart)
       left = x;
-      right = y-x;
+      right = -x+y;
     } else if (x < -0.1) {
-      left = y+x;
+      left = x+y;
       right = -x;
     } else if ((0.1 < y) || (y < -0.1)) {
       left = y;
