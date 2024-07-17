@@ -6,6 +6,8 @@ public final class Constants {
         public static final int LEFT_DRIVE_2_ID = 2;
         public static final int RIGHT_DRIVE_1_ID = 3;
         public static final int RIGHT_DRIVE_2_ID = 4;
+        public static final double PRECISION_SENS = 0.7;
+        public static final double BREAK = 0.0;
     }
     
     public static class ControlConstants {

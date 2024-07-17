@@ -7,7 +7,7 @@ package frc.robot.Commands;
 // WPI imports
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.Constants;
 // File imports
 import frc.robot.Controls;
 import frc.robot.Subsystems.Drivebase;
@@ -21,6 +21,9 @@ public class Drivin extends CommandBase {
   // X and Y axis of joystick
   public double x;
   public double y;
+  public double sensitivity;
+  public boolean isPrecision;
+  public boolean isBreak;
   private XboxController driver;
   public boolean endCommand;
 
@@ -43,22 +46,31 @@ public class Drivin extends CommandBase {
   public void execute() {
     // Joystick up Y is reversed
     x = (driver.getLeftX());
-    y = -(driver.getLeftY());
+    y = (driver.getRightTriggerAxis()-driver.getLeftTriggerAxis());
+
+    isPrecision = driver.getXButtonPressed();
+    isBreak = driver.getAButtonPressed();
 
     // Always innocent till proven guilty
     left = 0;
     right = 0;
+    sensitivity = 1;
 
+    if (isBreak) {
+      sensitivity = Constants.DrivebaseConstants.BREAK;
+    } else if (isPrecision) {
+      sensitivity = Constants.DrivebaseConstants.PRECISION_SENS;
+    }
 
-    if (0.1 < x) {  // Jack is a programmer tell him what he thinks this does (Basic Chart)
-      left = x;
-      right = -x+y;
-    } else if (x < -0.1) {
-      left = x+y;
-      right = -x;
-    } else if ((0.1 < y) || (y < -0.1)) {
-      left = y;
-      right = y;
+    if (0.15 < x) {  // Jack is a programmer tell him what he thinks this does (Basic Chart)
+      left = x * sensitivity;
+      right = (-x+y) * sensitivity;
+    } else if (x < -0.25) {
+      left = (x+y) * sensitivity;
+      right = -x * sensitivity;
+    } else if ((0.25 < y) || (y < -0.25)) {
+      left = y * sensitivity;
+      right = y * sensitivity;
     }
 
     drivin.drivin(left, right);
